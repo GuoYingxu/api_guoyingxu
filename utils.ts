@@ -3,7 +3,7 @@
  * 
  * @description global utils
  */
-import bcrypt from 'bcrypt'
+import * as bcrypt from 'bcrypt'
 
 /**
  * @description change  a string to hashed

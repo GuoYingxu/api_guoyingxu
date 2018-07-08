@@ -10,3 +10,12 @@ export function loadUser(req,res,next){
 export function  isValidationError(err){
   return err && err.name==='ValidataionError'
 }
+
+export function requiresUser(req,res,next){
+  if(req.session.userId){
+    req.user = {id:req.session.userId}
+    next()
+  }else{
+    res.app.oauthorise()(req,res,next)
+  }
+}

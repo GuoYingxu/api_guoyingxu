@@ -6,18 +6,18 @@ export class User {
     @PrimaryGeneratedColumn()
     id: number;
 
-    @Column({unique:true})
+    @Column({default:null})
     email: string;
 
-    @Column({unique:true})   
+    @Column({unique:true})
     phone: string;
 
-    @Column()   
+    @Column({default:null})
     hashed_password:string
 
-    @Column()
+    @Column({default:null})
     password_reset_token:string
 
-    @Column()
+    @Column({default:null})
     reset_token_expires:Date
 }

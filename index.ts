@@ -13,10 +13,10 @@ import * as methondOverride from  'method-override'
 import * as session from 'express-session'
 import * as bodyParser from 'body-parser'
 import * as statics from 'serve-static'
-
+import * as oauthserver from 'node-oauth2-server'
 import * as middleware from './middleware'
 
-
+import * as model from './oauth/oauth'
 
 
 
@@ -41,6 +41,12 @@ app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({extended:true}))
 app.use(statics(join(__dirname,'public')))
 
+app.oauth = oauthserver({
+  model: model,
+  grants:['password','authorization_code','refresh_token'],
+  debug:true
+})
+
 app.get('/',middleware.loadUser,routes.index)
 
 //登录
@@ -54,6 +60,7 @@ app.route('/register')
    .post(routes.createUser)
 
 
+app.get('/account',middleware.requiresUser,routes.showUser)
 //404
 app.use((req,res,next)=>{
   res.status(404)

@@ -1,7 +1,7 @@
 import { EntityRepository, Repository } from 'typeorm';
 import { User } from '../entity/User';
 import { hashPassword } from '../utils';
-import bcrypt from "bcrypt"
+import * as bcrypt from "bcrypt"
 @EntityRepository(User)
 export class UserRepository extends Repository<User>{
 
