@@ -2,7 +2,6 @@
 import { UserRepository } from '../repository/UserRespository';
 import { getCustomRepository } from 'typeorm';
 export function  createUser(req,res,next){
-  console.log(req.body)
   const user = getCustomRepository(UserRepository)
   user.register(req.body).then(user=>{
     if(user){
@@ -18,7 +17,7 @@ export function toRegister(req,res,next){
 }
 export function showUser(req,res,next){
   const user = getCustomRepository(UserRepository)
-  user.findOne({phone: req.session.userId}).then(user=>{
+  user.findOne({id: req.session.userId}).then(user=>{
     res.render('account',{user:user})
   }).catch(error=>{
     next(error)

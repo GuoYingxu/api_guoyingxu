@@ -9,6 +9,9 @@ block content
       .form-group
         input.form-control(name='password', type='password', placeholder='Your password')
       .form-group
+        input(type='hidden', name='client_id', value='#{client_id}')
+        input(type='hidden', name='redirect_uri', value='#{redirect_uri}')
+      .form-group
         button.btn.btn-lg.btn-primary.btn-block(type='submit') Sign in
 
     a(href="/register") sign up

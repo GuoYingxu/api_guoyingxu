@@ -1,8 +1,8 @@
-import { Entity, Column ,PrimaryColumn} from "typeorm";
+import { Entity, Column ,PrimaryGeneratedColumn} from "typeorm";
 
 @Entity()
 export class OauthClient{
-  @PrimaryColumn()
+  @PrimaryGeneratedColumn('uuid')
   clientId:string
 
   @Column()
@@ -11,4 +11,12 @@ export class OauthClient{
   @Column()
   redirectUri:string
 
+  @Column()
+  name:string
+
+  @Column()
+  userId:string
+
+  @Column()
+  grantType:string
 }

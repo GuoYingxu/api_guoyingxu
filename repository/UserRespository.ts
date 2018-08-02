@@ -7,8 +7,8 @@ export class UserRepository extends Repository<User>{
 
   //注册
   register(fields:any){
-    var user:User = new User();
-    user.phone = fields.phone,
+    var user:User = new User()
+    user.phone = fields.phone
     user.hashed_password = hashPassword(fields.password)
     return this.save(user)
   } 
@@ -20,6 +20,7 @@ export class UserRepository extends Repository<User>{
   authenticate(phone:string,password:string){
     return this.findOne({phone}).then(user=>{
       if(user && bcrypt.compareSync(password,user.hashed_password)){
+        console.log(user)
         return user
       }else{
         return null
