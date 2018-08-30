@@ -12,50 +12,163 @@ import { OauthAuthCode } from "../entity/oauth_authcode";
 import {getManager, getCustomRepository, GridFSBucketReadStream} from 'typeorm'
 import { OauthAccesstoken } from "../entity/oauth_accesstoken";
 import { OauthRefreshToken } from '../entity/oauth_refreshToken';
-import { UserRepository } from '../repository/UserRespository';
+import { UserRepository } from '../repository/UserRepository';
 import { OauthClient } from "../entity/oauth_client";
+import {User} from '../entity/User'
+import { Promise } from 'bluebird';
+import { access, unwatchFile } from "fs";
 /**
  *  oauth models
  */
 
 
 
-export function getAuthCode(authCode:string,callback:Function){
+export function getAuthorizationCode(authCode:string){
   const entityManager = getManager()
-  const user = entityManager.findOne(OauthAuthCode,{authCode:authCode}).then(entity => callback(false,entity)).catch(err=>callback(err))
+  return entityManager.findOne(OauthAuthCode,{authCode:authCode})
+    .then(
+      (code)=>{
+        return Promise.all([
+          code,
+          entityManager.findOne(OauthClient,{id:code.clientId}),
+          entityManager.findOne(User,{id:code.userId})
+        ]).spread((code,client,user)=>{
+          console.log(code)
+          return {
+            code:code.authCode,
+            expiresAt:code.expires,
+            // redirectUri:code.redirectUri,
+            // scope:code.scope
+            client:client,
+            user:user
+          }
+        })
+      }
+    )
 }
 
-export function saveAuthCode(code:string,clientId:string,expires:Date,userId:string,callback:Function){
-  const fields = {
-    authCode:code,
-    clientId,
-    userId,
-    expires
-  }
+export function getRefreshToken(refreshToken:string){
+  const entityManager = getManager() 
+  return entityManager.findOne(OauthRefreshToken,{refreshToken:refreshToken})
+    .then(token=>{
+      if(!token){
+        return null
+      }
+      console.log("!!!!!!!!!!!!!!!!!!!!!",token)
+      return Promise.all([
+        token,
+        entityManager.findOne(OauthClient,{id:token.clientId}),
+        entityManager.findOne(User,{id:token.userId})
+      ]).spread((token,client,user)=>{
+        return {
+          refreshToken: token.refreshToken,
+          refreshTokenExpiresAt: token.expires,
+          // scope: token.scope,
+          client: client, // with 'id' property
+          user: user
+        }
+      })
+    }).catch(err=>{
+      console.log(err)
+    })
+}
+export function getAccessToken(bearerToken:string){
   const entityManager = getManager()
-  entityManager.save(OauthAuthCode,fields).then(()=>callback()).catch(error=>callback(error))
+  return entityManager.findOne(OauthAccesstoken,{accessToken:bearerToken})
+    .then((token)=>{
+      if(!token){
+        return null
+      }
+      return Promise.all([
+        token,
+        entityManager.findOne(OauthClient,{id:token.clientId}),
+        entityManager.findOne(User,{id:token.userId})
+      ])
+      .spread((token,client,user)=>{
+        return {
+          accessToken: token.accessToken,
+          accessTokenExpiresAt:token.expires,
+          client:client,
+          user:user
+        }
+      })
+    }).catch(err=>{
+      console.log(err)
+    })
 }
 
-export function getAccessToken(bearerToken:string,callback:Function){
+export function getUserFromClient(client){
+  const entitymanager = getManager()
+  entitymanager.findOne(User,{id:client.userId})
+}
+export function saveAuthorizationCode(code:any,client:any,user:any){
   const entityManager = getManager()
-  entityManager.findOne(OauthAccesstoken,{accessToken:bearerToken}).then(entity=>callback(null,entity))
+  return entityManager.save(OauthAuthCode,{
+    authCode:code.authorizationCode,
+    expires:code.expiresAt,
+    redirectUri:code.redirectUri,
+    // scope:code.scope,
+    clientId:client.id,
+    userId:user.id
+  }).then((code)=>{
+    return {
+      authorizationCode:code.authCode,
+      expiresAt:code.expires,
+      redirectUri:code.redirectUri,
+      // scope:code.scope,
+      client:{id:code.clientId},
+      user:{id:code.userId}
+    }
+  })
+}
+export function revokeAuthorizationCode(code){
+  const entitymanager  = getManager()
+  return entitymanager.remove(OauthAuthCode,{authCode:code.code})
+          .then(code=>{
+            return !!code
+          })
 }
 
-export function saveAccessToken(token:string,clientId:string,expires:Date,user:any,callback){
-  const fields = {
-    accessToken:token,
-    clientId:clientId,
-    userId:user.id,
-    expires
-  }
-  const entityManager = getManager()
-  entityManager.save(OauthAccesstoken,fields).then(()=>callback()).catch(error=> callback(error))
+
+export function saveToken(token:any,client:any,user:any){
+  const entitymanager =getManager()
+  let fns = [
+    entitymanager.save(OauthAccesstoken,{
+      accessToken:token.accessToken,
+      expires:token.accessTokenExpiresAt,
+      // scope:token.scope,
+      clientId: client.id,
+      userId:user.id
+    }),
+    entitymanager.save(OauthRefreshToken,{
+      refreshToken:token.refreshToken,
+      expires:token.refreshTokenExpiresAt,
+      // scope:token.scope,
+      clientId:client.id,
+      userId:user.id
+    })
+  ]
+
+  return Promise.all(fns).spread((accessToken,refreshToken)=>{
+    return {
+      accessToken:accessToken.accessToken,
+      accessTokenExpiresAt:accessToken.expires,
+      refreshToken:refreshToken.refreshToken,
+      refreshTokenExpiresAt:refreshToken.expires,
+      // scope:accessToken.scope,
+      client:{id:client.id},
+      user:{id:user.id}
+    }
+  })
 }
 
-export function getRefreshToken(refreshToken:string,callback:Function){
-  const entityManager = getManager()
 
-  entityManager.findOne(OauthRefreshToken,{refreshToken:refreshToken}).then(entity =>callback(entity))
+export function revokeToken(token){
+  console.log('==============revokeToken')
+  const entitymanager = getManager()
+  return entitymanager.remove(OauthRefreshToken,{refreshToken:token.refreshToken}).then((refreshToken)=>{
+    return !!refreshToken
+  })
 }
 
 export function saveRefreshToken(token:string,clientId:string,expires:Date,user:any,callback:Function){
@@ -71,29 +184,32 @@ export function saveRefreshToken(token:string,clientId:string,expires:Date,user:
   entityManager.save(OauthRefreshToken,fields).then(()=>callback()).catch(err=>callback(err))
 }
 
-export function getUser(phone:string,password:string,callback:Function){
+export function getUser(username:string,password:string){
   const user = getCustomRepository(UserRepository)
-  user.authenticate(phone,password).then(user=>callback(null,user))
+  return user.authenticate(username,password)
 }
 
-export function getClient(clientId:string,clientSecret:string,callback:Function){
-  var params:any = {clientId:clientId}
-
+export function getClient(clientId:string,clientSecret:string){
+  var params:any = {id:clientId}
   if(clientSecret!=null){
     params.clientSecret =clientSecret
   }
   const entityManager =getManager()
-  entityManager.findOne(OauthClient,params).then(entity=>{
-    callback(null,entity)
-  }).catch((err)=>{
-    callback(err)
+  return entityManager.findOne(OauthClient,params).then(client=>{
+    console.log(client)
+    return {
+      id:client.id,
+      redirectUris:[client.redirectUri],
+      grants:client.grantType.split(',')
+    }
+  }).catch(err=>{
+    console.log(err)
   })
-
 }
 
 
 export function grantTypeAllowed(clientId:string,grantType:string,callback:Function){
-  var params:any = {clientId:clientId}
+  var params:any = {id:clientId}
   const entityManager =getManager()
   entityManager.findOne(OauthClient,params).then(entity=>{
     return callback(false,entity.grantType.indexOf(grantType)>=0)

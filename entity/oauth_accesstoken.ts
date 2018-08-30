@@ -10,7 +10,7 @@ export class OauthAccesstoken{
   clientId:string
 
   @Column()
-  userId:string
+  userId:number;
 
   @Column()
   expires:Date

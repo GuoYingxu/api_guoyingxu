@@ -1,10 +1,21 @@
 import {Router } from 'express'
-import {requiresUser} from '../middleware'
-import {getCustomRepository} from 'typeorm'
-import { UserRepository } from '../repository/UserRespository';
+import {getCustomRepository,getManager} from 'typeorm'
+import { UserRepository } from '../repository/UserRepository';
+import * as OAuth2Server from 'oauth2-server'
+import * as model from './oauth'
+import {Request,Response} from 'oauth2-server'
+import { ESRCH } from 'constants';
+const oauth = new OAuth2Server({
+  model: model,
+  grants:['password','authorization_code','refresh_token'],
+  debug:true,
+  allowEmptyState:true
+})
+
 let router = new Router()
-export function oauthRouter(app){
-  router.route('/authorize')
+export function oauthRouter(){
+  //授权页面
+  router.route('/authorize') 
     .get((req,res,next)=>{
       //未登录
       if(!req.session.userId){
@@ -12,7 +23,8 @@ export function oauthRouter(app){
       }
       res.render('authorise',{
         client_id:req.query.client_id,
-        redirect_uri:req.query.redirect_uri
+        redirect_uri:req.query.redirect_uri,
+        user_id:req.session.userId
       })
     })
     .post((req,res,next)=>{
@@ -20,17 +32,60 @@ export function oauthRouter(app){
         return res.redirect(`/session?redirect=${req.baseUrl+req.path}&client_id=${req.query.client_id}&redirect_uri=${req.query.redirect_uri}`)
       }
       next()
-    },app.oauth.authCodeGrant((req,next)=>{
-      next(null,req.body.allow=="yes",req.session.userId,null)
+    },authorizeHandler({
+      authenticateHandler:{
+        handle:(request,response)=>{
+          const user =getCustomRepository(UserRepository)
+          return user.getUserById(request.session.userId)
+        }
+      }
     }))
-  router.all('/token',app.oauth.grant())
-
-  router
-    .get('/user',requiresUser,(req,res,next)=>{
-      const user = getCustomRepository(UserRepository)
-      user.findOne({id: req.session.userId}).then(user=>{
-        return res.jsonp(user)
-      }).catch(error=>next(error))
-    })
+  
+  router.all('/token',authTokenHandler({}),(req,res,next)=>{
+    console.log('+========================================continued ??? why')
+    console.log("===================================just stop it !")
+  })
   return router
+}
+function authorizeHandler (options){
+  return function(req,res,next){
+    let request = new Request(req)
+    let response = new Response(res)
+    return oauth.authorize(request,response,options)
+      .then(code=>{
+        console.log(code)
+        res.locals.oauth = {code:code}
+        return res.redirect(req.query.redirect_uri +'?code='+code.authorizationCode)
+      }).catch(err=>{
+        console.log(err)
+        return
+      })
+  }
+}
+function authTokenHandler(options){
+  return function (req,res,next){
+    let request = new Request(req)
+    let response = new Response(res)
+    return oauth.token(request,response,options,next)
+      .then(token=>{
+        res.locals.oauth={token:token}
+       return  res.status(200).json(token)
+      }).catch(err=>{
+        // return res.end()
+        return res.status(err.code).json(err)
+      })
+  }
+}
+export function authenticateHandler(options= {}){
+  return function(req,res,next){
+    let request = new Request(req)
+    let response = new Response(res)
+    return oauth.authenticate(request,response,options)
+      .then(token=>{
+        res.locals.oauth = {token:token}
+        next()
+      }).catch(err=>{
+        next(err)
+      })
+  }
 }

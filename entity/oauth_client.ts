@@ -3,7 +3,7 @@ import { Entity, Column ,PrimaryGeneratedColumn} from "typeorm";
 @Entity()
 export class OauthClient{
   @PrimaryGeneratedColumn('uuid')
-  clientId:string
+  id:string
 
   @Column()
   clientSecret:string
@@ -15,7 +15,7 @@ export class OauthClient{
   name:string
 
   @Column()
-  userId:string
+  userId:number
 
   @Column()
   grantType:string

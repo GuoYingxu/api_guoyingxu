@@ -10,7 +10,7 @@ export class OauthRefreshToken{
   clientId:string
 
   @Column()
-  userId:string
+  userId:number
 
   @Column()
   expires:Date

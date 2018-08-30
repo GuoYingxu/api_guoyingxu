@@ -10,8 +10,11 @@ export class OauthAuthCode{
   clientId:string
 
   @Column()
-  userId:string
+  userId:number
 
   @Column()
   expires:Date
+
+  @Column()
+  redirectUri:string
 }

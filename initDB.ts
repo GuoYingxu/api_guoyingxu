@@ -1,6 +1,6 @@
 
 import { createConnection, getCustomRepository } from 'typeorm';
-import { ClientRepository } from './repository/ClientRespository';
+import { ClientRepository } from './repository/ClientRepository';
 import { OauthClient } from './entity/oauth_client';
     //initDB
   createConnection().then(connection=>{
@@ -9,9 +9,9 @@ import { OauthClient } from './entity/oauth_client';
       if(!res){
         let c :OauthClient = new OauthClient()
         c.name="mng_guoyingxu";
-        c.clientSecret="guoyingxu";1
+        c.clientSecret="guoyingxu";
         c.redirectUri = "mng.guoyingxu.com/oauth/callback";
-        c.userId = '1';
+        c.userId = 1;
         c.grantType='authorization_code';
         client.save(c)
       }

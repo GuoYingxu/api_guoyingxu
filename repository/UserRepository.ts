@@ -17,6 +17,9 @@ export class UserRepository extends Repository<User>{
     return this.findOne({phone})
   }
   
+  getUserById(id:number){
+    return this.findOne({id})
+  }
   authenticate(phone:string,password:string){
     return this.findOne({phone}).then(user=>{
       if(user && bcrypt.compareSync(password,user.hashed_password)){

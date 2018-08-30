@@ -3,7 +3,7 @@
  * 
  * @description  start a http server 
  */
-import app from './index'
+import app from '.'
 import * as  http from 'http'
 import { createConnection, getCustomRepository } from 'typeorm';
 const server = http.createServer(app)

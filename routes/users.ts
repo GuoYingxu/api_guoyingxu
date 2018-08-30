@@ -1,5 +1,5 @@
 
-import { UserRepository } from '../repository/UserRespository';
+import { UserRepository } from '../repository/UserRepository';
 import { getCustomRepository } from 'typeorm';
 export function  createUser(req,res,next){
   const user = getCustomRepository(UserRepository)

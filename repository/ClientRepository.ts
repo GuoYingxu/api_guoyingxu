@@ -14,7 +14,7 @@ export class ClientRepository extends Repository<OauthClient>{
     client.userId = fields.user_id
     return this.save(client)
   }
-  getClients(userId:string){
+  getClients(userId:number){
     return this.find({userId}).then(clients=>{
       return clients
     })

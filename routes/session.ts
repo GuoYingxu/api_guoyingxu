@@ -1,4 +1,4 @@
-import { UserRepository } from '../repository/UserRespository';
+import { UserRepository } from '../repository/UserRepository';
 import { getCustomRepository } from 'typeorm';
 export function createSession(req,res,next){
   var user = getCustomRepository(UserRepository) 
