@@ -3,7 +3,7 @@
    "host": "localhost",
    "port": 3306,
    "username": "root",
-   "password": "gyx_123",
+   "password": "gyx_123!",
    "database": "api_guoyingxu",
    "synchronize": true,
    "logging": true,
