@@ -18,7 +18,7 @@ import {oauthRouter, authenticateHandler} from './oauth/oauthRoute'
 const app = express();
 
 app.set('env',process.env.NODE_ENV||'development')
-app.set('port',process.env.PORT || 3000)
+app.set('port',process.env.PORT || 3001)
 app.set('views',join(__dirname,'views'))
 app.set('view engine','jade')
 app.locals.title ='api_guoyingxu'
