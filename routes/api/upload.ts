@@ -17,7 +17,6 @@ export function uploadRouter(){
       };
       var putPolicy = new qiniu.rs.PutPolicy(options);
       var uploadToken=putPolicy.uploadToken(mac);
-      console.log(uploadToken)
       res.json({token:uploadToken})
     })
   return router

@@ -1,5 +1,5 @@
 import {Router } from 'express'
-import {getCustomRepository,getManager} from 'typeorm'
+import {getCustomRepository} from 'typeorm'
 import { UserRepository } from '../repository/UserRepository';
 import * as OAuth2Server from 'oauth2-server'
 import * as model from './oauth'
@@ -19,7 +19,7 @@ export function oauthRouter(){
     .get((req,res,next)=>{
       //未登录
       if(!req.session.userId){
-        return res.redirect(`/session?redirect=${req.baseUrl+req.path}&client_id=${req.query.client_id}&redirect_uri=${req.query.redirect_uri}`)
+        return res.redirect(`/session?redirect=${req.baseUrl+req.path}&response_type=${req.query.response_type}&client_id=${req.query.client_id}&redirect_uri=${req.query.redirect_uri}`)
       }
       res.render('authorise',{
         client_id:req.query.client_id,
@@ -42,8 +42,6 @@ export function oauthRouter(){
     }))
   
   router.all('/token',authTokenHandler({}),(req,res,next)=>{
-    console.log('+========================================continued ??? why')
-    console.log("===================================just stop it !")
   })
   return router
 }
@@ -53,11 +51,9 @@ function authorizeHandler (options){
     let response = new Response(res)
     return oauth.authorize(request,response,options)
       .then(code=>{
-        console.log(code)
         res.locals.oauth = {code:code}
         return res.redirect(req.query.redirect_uri +'?code='+code.authorizationCode)
       }).catch(err=>{
-        console.log(err)
         return
       })
   }

@@ -12,7 +12,6 @@ export abstract class BasedIdEntity {
 
   @BeforeInsert()
   insertDates() {
-    console.log("==================breforeInsert")
       this.created_at = new Date();
       this.updated_at = new Date();
   }

@@ -58,7 +58,9 @@ app.route('/register')
 
 app.get('/account',routes.showUser)
 
-app.use('/oauth',oauthRouter())
+app.use('/oauth',(req,res,next)=>{
+  next()
+},oauthRouter())
 app.use('/api',authenticateHandler({}),apiRouter())
 
 app.use((req,res,next)=>{
@@ -66,11 +68,4 @@ app.use((req,res,next)=>{
   return res.render('404')
 })
 
-//handle errors
-// app.use((err,req,res,next)=>{
-//   if(process.env.NODE_ENV !== 'test')
-//     console.log("ERROR:",err)
-//   res.status(err.code || 500)
-//   return  res.send(err)
-// })
 export default app

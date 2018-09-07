@@ -33,7 +33,6 @@ export function getAuthorizationCode(authCode:string){
           entityManager.findOne(OauthClient,{id:code.clientId}),
           entityManager.findOne(User,{id:code.userId})
         ]).spread((code,client,user)=>{
-          console.log(code)
           return {
             code:code.authCode,
             expiresAt:code.expires,
@@ -54,7 +53,6 @@ export function getRefreshToken(refreshToken:string){
       if(!token){
         return null
       }
-      console.log("!!!!!!!!!!!!!!!!!!!!!",token)
       return Promise.all([
         token,
         entityManager.findOne(OauthClient,{id:token.clientId}),
@@ -69,7 +67,6 @@ export function getRefreshToken(refreshToken:string){
         }
       })
     }).catch(err=>{
-      console.log(err)
     })
 }
 export function getAccessToken(bearerToken:string){
@@ -93,7 +90,6 @@ export function getAccessToken(bearerToken:string){
         }
       })
     }).catch(err=>{
-      console.log(err)
     })
 }
 
@@ -164,7 +160,6 @@ export function saveToken(token:any,client:any,user:any){
 
 
 export function revokeToken(token){
-  console.log('==============revokeToken')
   const entitymanager = getManager()
   return entitymanager.remove(OauthRefreshToken,{refreshToken:token.refreshToken}).then((refreshToken)=>{
     return !!refreshToken
@@ -196,14 +191,12 @@ export function getClient(clientId:string,clientSecret:string){
   }
   const entityManager =getManager()
   return entityManager.findOne(OauthClient,params).then(client=>{
-    console.log(client)
     return {
       id:client.id,
       redirectUris:[client.redirectUri],
       grants:client.grantType.split(',')
     }
   }).catch(err=>{
-    console.log(err)
   })
 }
 

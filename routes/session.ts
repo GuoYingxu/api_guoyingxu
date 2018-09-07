@@ -6,7 +6,7 @@ export function createSession(req,res,next){
     if(user){
       req.session.userId = user.id
       var redirect = req.body.redirect_uri || '/account'
-      res.redirect(`/oauth/authorize?client_id=${req.body.client_id}&redirect_uri=${redirect}`)
+      res.redirect(`/oauth/authorize?client_id=${req.body.client_id}&redirect_uri=${redirect}&response_type=${req.query.response_type}`)
     }else{
       res.status(401).render('login',{client_id:req.body.client_id,redirect_uri:req.body.redirect_uri})
     }
