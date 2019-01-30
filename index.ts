@@ -15,6 +15,8 @@ import * as bodyParser from 'body-parser'
 import * as statics from 'serve-static'
 import {apiRouter} from './routes/api/index'
 import {oauthRouter, authenticateHandler} from './oauth/oauthRoute'
+import * as fs from 'fs'
+import * as  qr from 'qr-image'
 const app = express();
 
 app.set('env',process.env.NODE_ENV||'development')
@@ -44,6 +46,34 @@ app.all('*', function(req, res, next) {
   else  next();
 });
 app.get('/',routes.index)
+//不登录上传图片,并返回二维码
+app.route('/uploadImage')
+  .get((req,res,next)=>{
+    return res.json({ok:'ok'})
+  })
+  .post((req,res,next)=>{
+    var reqData = [];
+    var size = 0;
+    req.on('data', function (data) {
+        reqData.push(data);
+        size += data.length;
+    });
+    req.on('end', function () {
+      req.reqData = Buffer.concat(reqData, size); 
+      var date = new Date();
+      var guid = Math.floor(Math.random()*10000)
+      let fileName = `img_${date.getFullYear()}_${date.getMonth()}_${date.getDate()}_${guid}.png`
+      fs.writeFile(`./public/upload/${fileName}`,req.reqData,()=>{
+        var img = qr.image(`http://www.guoyingxu.com/upload/${fileName}.png`,{size:10})
+
+        res.writeHead(200, {'Content-Type': 'image/png'});
+        
+        return img.pipe(res);
+        //return res.json({path:fileName})
+      
+      });
+    }) 
+  })
 
 //登录
 app.route('/session')
