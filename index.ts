@@ -64,7 +64,7 @@ app.route('/uploadImage')
       var guid = Math.floor(Math.random()*10000)
       let fileName = `img_${date.getFullYear()}_${date.getMonth()}_${date.getDate()}_${guid}.png`
       fs.writeFile(`./public/upload/${fileName}`,req.reqData,()=>{
-        var img = qr.image(`/upload/${fileName}`,{size:10})
+        var img = qr.image(`/upload/${fileName}.png`,{size:10})
 
         res.writeHead(200, {'Content-Type': 'image/png'});
         
