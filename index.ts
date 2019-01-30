@@ -33,7 +33,7 @@ app.use(session({
   secret:'guoyingxu'
 }))
 app.use(bodyParser.json())
-
+app.use(bodyParser.json({"limit":"10000kb"}));
 app.use(bodyParser.urlencoded({extended:true}))
 app.use(methondOverride())
 app.use(statics(join(__dirname,'public')))
