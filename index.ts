@@ -46,6 +46,9 @@ app.all('*', function(req, res, next) {
   else  next();
 });
 app.get('/',routes.index)
+app.get('/imgview/:name',(req,res)=>{
+  return res.render('imageView',{src:`/upload/${req.params.name}.png`})
+})
 //不登录上传图片,并返回二维码
 app.route('/uploadImage')
   .get((req,res,next)=>{
@@ -64,7 +67,7 @@ app.route('/uploadImage')
       var guid = Math.floor(Math.random()*10000)
       let fileName = `img_${date.getFullYear()}_${date.getMonth()}_${date.getDate()}_${guid}.png`
       fs.writeFile(`./public/upload/${fileName}`,req.reqData,()=>{
-        var img = qr.image(`http://www.guoyingxu.com/upload/${fileName}.png`,{size:10})
+        var img = qr.image(`http://www.guoyingxu.com/imgview/${fileName}`,{size:10})
 
         res.writeHead(200, {'Content-Type': 'image/png'});
         
