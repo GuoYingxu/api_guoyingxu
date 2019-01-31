@@ -65,8 +65,8 @@ app.route('/uploadImage')
       req.reqData = Buffer.concat(reqData, size); 
       var date = new Date();
       var guid = Math.floor(Math.random()*10000)
-      let fileName = `img_${date.getFullYear()}_${date.getMonth()}_${date.getDate()}_${guid}.png`
-      fs.writeFile(`./public/upload/${fileName}`,req.reqData,()=>{
+      let fileName = `img_${date.getFullYear()}_${date.getMonth()}_${date.getDate()}_${guid}`
+      fs.writeFile(`./public/upload/${fileName}.png`,req.reqData,()=>{
         var img = qr.image(`http://api.guoyingxu.com/imgview/${fileName}`,{size:10})
 
         res.writeHead(200, {'Content-Type': 'image/png'});
