@@ -17,6 +17,7 @@ import {apiRouter} from './routes/api/index'
 import {oauthRouter, authenticateHandler} from './oauth/oauthRoute'
 import * as fs from 'fs'
 import * as  qr from 'qr-image'
+import { xcxapiRouter } from './routes/xcxapi';
 const app = express();
 
 app.set('env',process.env.NODE_ENV||'development')
@@ -94,6 +95,8 @@ app.get('/account',routes.showUser)
 app.use('/oauth',(req,res,next)=>{
   next()
 },oauthRouter())
+
+app.use('/xcxapi',xcxapiRouter())
 app.use('/api',authenticateHandler({}),apiRouter())
 
 app.use((req,res,next)=>{
