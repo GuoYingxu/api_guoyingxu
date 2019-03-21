@@ -50,6 +50,9 @@ app.get('/',routes.index)
 app.get('/imgview/:name',(req,res)=>{
   return res.render('imageView',{src:`/upload/${req.params.name}.png`})
 })
+app.get('/app/download',(req,res)=>{
+  return res.attachment('README.md');
+})
 //不登录上传图片,并返回二维码
 app.route('/uploadImage')
   .get((req,res,next)=>{
