@@ -17,6 +17,7 @@ import {apiRouter} from './routes/api/index'
 import {oauthRouter, authenticateHandler} from './oauth/oauthRoute'
 import * as fs from 'fs'
 import * as  qr from 'qr-image'
+import { xcxapiRouter } from './routes/xcxapi';
 const app = express();
 
 app.set('env',process.env.NODE_ENV||'development')
@@ -48,6 +49,9 @@ app.all('*', function(req, res, next) {
 app.get('/',routes.index)
 app.get('/imgview/:name',(req,res)=>{
   return res.render('imageView',{src:`/upload/${req.params.name}.png`})
+})
+app.get('/app/download',(req,res)=>{
+  return res.attachment('README.md');
 })
 //不登录上传图片,并返回二维码
 app.route('/uploadImage')
@@ -94,6 +98,8 @@ app.get('/account',routes.showUser)
 app.use('/oauth',(req,res,next)=>{
   next()
 },oauthRouter())
+
+app.use('/xcxapi',xcxapiRouter())
 app.use('/api',authenticateHandler({}),apiRouter())
 
 app.use((req,res,next)=>{
