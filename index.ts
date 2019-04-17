@@ -18,6 +18,13 @@ import {oauthRouter, authenticateHandler} from './oauth/oauthRoute'
 import * as fs from 'fs'
 import * as  qr from 'qr-image'
 import { xcxapiRouter } from './routes/xcxapi';
+
+import xlsx from 'node-xlsx' 
+
+import {getCustomRepository} from 'typeorm'
+import {QuestionbankRepository} from './repository/QuestionBankRespository'
+import {QuestionRepository} from './repository/QuestionRepository'
+ 
 const app = express();
 
 app.set('env',process.env.NODE_ENV||'development')
@@ -82,6 +89,35 @@ app.route('/uploadImage')
     }) 
   })
 
+
+app.route('/testExl')
+  .get(async(req,res,next)=>{
+    console.log('testelce')
+    let bankRepository = getCustomRepository(QuestionbankRepository)
+    let bank =await bankRepository.findOne({id:1},{relations:['question']})
+    console.log(bank)
+    let questionRepository = getCustomRepository(QuestionRepository)
+    
+    const workSheet = xlsx.parse(fs.readFileSync('questions1.xls'))
+    workSheet[0].data.forEach(async element =>{
+      if(element[0] == '试题类型'){
+        return
+      }
+      let q =await questionRepository.create();
+      q.questionType = element[0];
+      q.answer = element[1] && element[1].toUpperCase();
+      q.title = element[2];
+      q.optiona = element[3] || '';
+      q.optionb = element[4] || '';
+      q.optionc = element[5] || '';
+      q.optiond = element[6] || '';
+      q.bank = bank;
+      await  questionRepository.save(q)
+     // bank.question.push(q)
+    })
+  //  bankRepository.save(bank)
+    return res.json({res:'ok'})
+  })  
 //登录
 app.route('/session')
 .get(routes.showSession)

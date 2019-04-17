@@ -3,3 +3,4 @@ export function index(req,res){
 }
 export * from './session';
 export * from './users';
+//export * from './question';
