@@ -3,5 +3,7 @@ import {Questionbank } from '../entity/questionbank'
 
 @EntityRepository(Questionbank)
 export class QuestionbankRepository extends Repository<Questionbank>{
-   
+   getList(){
+     return this.find()
+   }
 }
