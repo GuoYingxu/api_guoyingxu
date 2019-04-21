@@ -5,7 +5,11 @@ import {Question} from '../entity/qusetion'
 @EntityRepository(Question)
 export class QuestionRepository extends Repository<Question>{
   getIdsByRand(bankid,size){
-    return getConnection().query(`select id from question where bankid=${bankid} order by RAND() limit ${size}`)
+    if(size!='0' && size !=0){
+      return getConnection().query(`select id from question where bankid=${bankid} order by RAND() limit ${size}`)
+    }else{
+      return getConnection().query(`select id from question`)
+    }
   }
   // getQuestionListByBank(bankid,size){
   //   return this.createQueryBuilder('question')
