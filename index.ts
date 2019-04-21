@@ -22,7 +22,7 @@ import { xcxapiRouter } from './routes/xcxapi';
 import xlsx from 'node-xlsx' 
 
 import {getCustomRepository} from 'typeorm'
-import {QuestionbankRepository} from './repository/QuestionBankRespository'
+import {QuestionbankRepository} from './repository/QuestionbankRespository'
 import {QuestionRepository} from './repository/QuestionRepository'
  
 const app = express();
