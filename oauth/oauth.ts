@@ -8,13 +8,13 @@
  * Copyright (c) 2018 Guoyingxu
  */
 
-import { OauthAuthCode } from "../entity/oauth_authcode";
+import { OauthAuthCode } from "../entity/oauth/oauth_authcode";
 import {getManager, getCustomRepository, GridFSBucketReadStream} from 'typeorm'
-import { OauthAccesstoken } from "../entity/oauth_accesstoken";
-import { OauthRefreshToken } from '../entity/oauth_refreshToken';
+import { OauthAccesstoken } from "../entity/oauth/oauth_accesstoken";
+import { OauthRefreshToken } from '../entity/oauth/oauth_refreshToken';
 import { UserRepository } from '../repository/UserRepository';
-import { OauthClient } from "../entity/oauth_client";
-import {User} from '../entity/User'
+import { OauthClient } from "../entity/oauth/oauth_client";
+import {User} from '../entity/oauth/User'
 import { Promise } from 'bluebird';
 import { access, unwatchFile } from "fs";
 /**

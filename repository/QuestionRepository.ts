@@ -1,5 +1,5 @@
 import {EntityRepository,Repository,getConnection} from 'typeorm'
-import {Question} from '../entity/qusetion'
+import {Question} from '../entity/question/qusetion'
 
 
 @EntityRepository(Question)

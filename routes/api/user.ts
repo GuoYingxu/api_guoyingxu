@@ -1,6 +1,6 @@
 import { Router } from 'express';
 import { getManager } from 'typeorm';
-import { User } from '../../entity/User';
+import { User } from '../../entity/oauth/User';
 let router = new Router
 export function userRouter (){
   router.route('/userInfo')

@@ -1,6 +1,6 @@
 import { EntityRepository ,Repository} from 'typeorm';
 
-import { OauthClient } from '../entity/oauth_client';
+import { OauthClient } from '../entity/oauth/oauth_client';
 
 @EntityRepository(OauthClient)
 export class ClientRepository extends Repository<OauthClient>{
