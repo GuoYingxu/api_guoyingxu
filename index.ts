@@ -94,12 +94,12 @@ app.route('/uploadImage')
 
 
 
-    res.set({
-      "Content-type":"application/pdf",
-      "Content-Disposition":"attachment;filename='./img.png",
-      "location":"https://api.guoyingxu.com/app/download"
-    })
-    res.end()
+    // res.set({
+    //   "Content-type":"application/pdf",
+    //   "Content-Disposition":"attachment;filename='./img.png",
+    //   "location":"https://api.guoyingxu.com/app/download"
+    // })
+    // res.end()
     // res.json({res:'ok'})
     // res.download('./img.png', 'report.pdf');
   })
