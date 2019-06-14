@@ -99,7 +99,8 @@ app.route('/uploadImage')
       "Content-Disposition":"attachment;filename='./img.png",
       "location":"https://api.guoyingxu.com/app/download"
     })
-    res.json({res:'ok'})
+    res.end()
+    // res.json({res:'ok'})
     // res.download('./img.png', 'report.pdf');
   })
 app.route('/testExl')
