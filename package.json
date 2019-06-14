@@ -10,7 +10,8 @@
       "migrations:generate": "ts-node ./node_modules/typeorm/cli.js migrations:generate",
       "migrations:run": "ts-node ./node_modules/typeorm/cli.js migrations:run",
       "migrations:revert": "ts-node ./node_modules/typeorm/cli.js migrations:revert",
-      "sync": "ts-node ./node_modules/typeorm/cli.js schema:sync"
+      "sync": "ts-node ./node_modules/typeorm/cli.js schema:sync",
+      "dp": "pm2 deploy ecosystem.json.js production --force "
    },
    "author": "guoyingxu",
    "license": "ISC",
