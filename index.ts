@@ -89,9 +89,18 @@ app.route('/uploadImage')
     }) 
   })
 
-  app.route(`/testDownload`)
+  app.route('/app/testDownload')
   .get((req,res,next)=>{
-    res.download('./img.png', 'report.pdf');
+
+
+
+    res.set({
+      "Content-type":"application/pdf",
+      "Content-Disposition":"attachment;filename='./img.png",
+      "location":"https://api.guoyingxu.com/app/download"
+    })
+    res.json({res:'ok'})
+    // res.download('./img.png', 'report.pdf');
   })
 app.route('/testExl')
   .get(async(req,res,next)=>{
