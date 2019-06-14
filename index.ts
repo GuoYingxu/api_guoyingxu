@@ -89,7 +89,10 @@ app.route('/uploadImage')
     }) 
   })
 
-
+  app.route(`/testDownload`)
+  .get((req,res,next)=>{
+    res.download('./img.png', 'report.pdf');
+  })
 app.route('/testExl')
   .get(async(req,res,next)=>{
     console.log('testelce')
