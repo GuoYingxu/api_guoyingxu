@@ -136,7 +136,9 @@ app.use('/oauth',(req,res,next)=>{
 },oauthRouter())
 
 app.use('/xcxapi',xcxapiRouter())
-app.use('/api',authenticateHandler({}),apiRouter())
+app.use('/api',
+// authenticateHandler({}),
+apiRouter())
 
 app.use((req,res,next)=>{
   res.status(404)
