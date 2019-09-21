@@ -1410,14 +1410,14 @@ mkdirp@^0.5.0, mkdirp@^0.5.1, mkdirp@~0.5.0:
   dependencies:
     minimist "0.0.8"
 
-morgan@^1.9.0:
-  version "1.9.0"
-  resolved "http://registry.npm.taobao.org/morgan/download/morgan-1.9.0.tgz#d01fa6c65859b76fcf31b3cb53a3821a311d8051"
-  integrity sha1-0B+mxlhZt2/PMbPLU6OCGjEdgFE=
+morgan@^1.9.1:
+  version "1.9.1"
+  resolved "https://registry.yarnpkg.com/morgan/-/morgan-1.9.1.tgz#0a8d16734a1d9afbc824b99df87e738e58e2da59"
+  integrity sha512-HQStPIV4y3afTiCYVxirakhlCfGkI161c76kKFca7Fk1JusM//Qeo1ej2XaMniiNeaZklMVrh3vTtIzpzwbpmA==
   dependencies:
     basic-auth "~2.0.0"
     debug "2.6.9"
-    depd "~1.1.1"
+    depd "~1.1.2"
     on-finished "~2.3.0"
     on-headers "~1.0.1"
 
@@ -1789,10 +1789,10 @@ punycode@^2.1.0, punycode@^2.1.1:
   resolved "http://registry.npm.taobao.org/punycode/download/punycode-2.1.1.tgz#b58b010ac40c22c5657616c8d2c2c02c7bf479ec"
   integrity sha1-tYsBCsQMIsVldhbI0sLALHv0eew=
 
-qiniu@^7.2.1:
-  version "7.2.1"
-  resolved "http://registry.npm.taobao.org/qiniu/download/qiniu-7.2.1.tgz#5080ebc4ce84cd1caffb645d91aabdcf9a2f39c6"
-  integrity sha1-UIDrxM6EzRyv+2Rdkaq9z5ovOcY=
+qiniu@^7.2.2:
+  version "7.2.2"
+  resolved "https://registry.yarnpkg.com/qiniu/-/qiniu-7.2.2.tgz#94425193f6b1dbd093fd78583070a64dde6cc5e7"
+  integrity sha512-LHEKoJqjQBiXqvzM9BWuIc+8sV/nOKNR5nJmonsyv9S6XMcCvMCU5+xjLwyt0U2wc3IkqcDYvjAFVrL+sfghjA==
   dependencies:
     agentkeepalive "3.3.0"
     crc32 "0.2.2"
