@@ -60,6 +60,7 @@ app.get('/imgview/:name',(req,res)=>{
 app.get('/app/download',(req,res)=>{
   return res.download('app.apk');
 })
+ 
 //不登录上传图片,并返回二维码
 app.route('/uploadImage')
   .get((req,res,next)=>{
