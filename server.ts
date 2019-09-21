@@ -3,9 +3,9 @@
  * 
  * @description  start a http server 
  */
-import app from '.'
+import app from './index'
 import * as  http from 'http'
-import { createConnection, getCustomRepository } from 'typeorm';
+import { createConnection } from 'typeorm';
 const server = http.createServer(app)
 createConnection().then(connection=>{
   server.listen(app.get('port'),()=>{
