@@ -1,5 +1,5 @@
 import { Entity,Column,  OneToMany, JoinTable  } from 'typeorm';
-import {BasedIdEntity} from './baseEntity'
+import {BasedIdEntity} from '../baseEntity'
 import { Question } from './qusetion';
 @Entity()
 export class Questionbank extends BasedIdEntity{

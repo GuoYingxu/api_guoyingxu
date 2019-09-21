@@ -1,5 +1,5 @@
 import {Entity,Column,BeforeInsert,BeforeUpdate} from 'typeorm';
-import { BasedIdEntity } from './baseEntity';
+import { BasedIdEntity } from '../baseEntity';
 
 @Entity()
 export class Image extends BasedIdEntity {

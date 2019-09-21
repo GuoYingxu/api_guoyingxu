@@ -1,5 +1,5 @@
 import { Entity,Column, ManyToMany, JoinTable  } from 'typeorm';
-import {BasedIdEntity} from './baseEntity'
+import {BasedIdEntity} from '../baseEntity'
 import { Image } from './image';
 @Entity()
 export class Album extends BasedIdEntity{

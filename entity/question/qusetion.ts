@@ -1,5 +1,5 @@
 import { Entity,Column, ManyToOne} from 'typeorm';
-import {BasedIdEntity} from './baseEntity'
+import {BasedIdEntity} from '../baseEntity'
 import { Questionbank } from './questionbank';
 
 @Entity()

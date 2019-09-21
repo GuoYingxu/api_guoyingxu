@@ -1,5 +1,5 @@
 import { EntityRepository,Repository } from 'typeorm';
-import { Album } from '../entity/album';
+import { Album } from '../entity/www/album';
 
 export interface QueryOptions {
   name?: string,

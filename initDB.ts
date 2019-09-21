@@ -1,7 +1,7 @@
 
 import { createConnection, getCustomRepository } from 'typeorm';
 import { ClientRepository } from './repository/ClientRepository';
-import { OauthClient } from './entity/oauth_client';
+import { OauthClient } from './entity/oauth/oauth_client';
     //initDB
   createConnection().then(connection=>{
     const client = getCustomRepository(ClientRepository)
