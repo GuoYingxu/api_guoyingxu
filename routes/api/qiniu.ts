@@ -11,7 +11,8 @@ export function QiniuRouter(){
       var mac = new qiniu.auth.digest.Mac(accessKey, secretKey);
 
       var options = {
-        scope: bucket,
+        scope: bucket, 
+        saveKey: "$(fname)", 
         expires: 7200
       };
       var putPolicy = new qiniu.rs.PutPolicy(options);
