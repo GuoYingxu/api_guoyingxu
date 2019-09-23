@@ -5,7 +5,7 @@
    "username": "root",
    "password": "gyx_123!",
    "database": "api_guoyingxu",
-   "synchronize": false,
+   "synchronize": true,
    "logging": true,
    "entities": [
       "entity/**/*.ts"
