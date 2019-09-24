@@ -11,6 +11,9 @@ export class QuestionRepository extends Repository<Question>{
       return getConnection().query(`select id from question`)
     }
   }
+  getallgaokao( ){
+    return getConnection().query(`select * from question where bankid in (2,3)`)
+  }
   // getQuestionListByBank(bankid,size){
   //   return this.createQueryBuilder('question')
   //     .where('quetion.bankid =:bankid',{bankid:bankid})

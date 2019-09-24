@@ -7,6 +7,7 @@ import { AlbumRouter } from './album';
 import { FileRouter} from './file'
 import { QiniuRouter} from './qiniu'
 import {CfileRouter} from './cq/cfile'
+import {QuetionRouter} from './cq/question'
 let router = new Router()
 export function apiRouter(){
   router.use('/user',userRouter())
@@ -17,5 +18,6 @@ export function apiRouter(){
   router.use('/file',FileRouter())
   router.use('/qiniu',QiniuRouter())
   router.use('/cq/cfile',CfileRouter())
+  router.use('/cq/question',QuetionRouter())
   return router
 }
