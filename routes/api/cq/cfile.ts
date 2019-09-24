@@ -52,7 +52,7 @@ export function CfileRouter(){
             })
           })
           json['list'] = jlist;
-          let filename ="./public/temp/diange.json";
+          let filename =`./public/temp/${projectName}.json`;
           if(fs.existsSync(filename)){
             fs.unlinkSync(filename)
           }
