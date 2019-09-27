@@ -9,7 +9,7 @@ export function CfileRouter(){
     .get(async(req,res,next)=>{
        let projectName= req.query.projectName
        let cfRepository = getCustomRepository(CfileRepository)
-       let list  = await cfRepository.getFile(projectName)
+       let list  = await cfRepository.getFile(projectName,'desc')
        res.json({success:true,list: list})
     })
     .post(async(req,res,next)=>{ 
@@ -41,7 +41,7 @@ export function CfileRouter(){
         .get(async(req,res,next)=>{
           let projectName = req.query.projectName
           let cfRepository = getCustomRepository(CfileRepository)
-          let list  = await cfRepository.getFile(projectName)
+          let list  = await cfRepository.getFile(projectName,'asc')
           let json = {}
           let jlist = []
           list.forEach(file=>{
