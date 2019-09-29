@@ -1,4 +1,4 @@
-import {EntityRepository,Repository,getConnection} from 'typeorm'
+import {In,EntityRepository,Repository,getConnection} from 'typeorm'
 import {Question} from '../entity/question/qusetion'
 
 
@@ -14,7 +14,22 @@ export class QuestionRepository extends Repository<Question>{
   getallgaokao( ){
     return getConnection().query(`select * from question where bankid in (2,3) order by id desc`)
   }
-  // getQuestionListByBank(bankid,size){
+  getQuestionByPage(bankid,page,pageSize,order){
+    return this.findAndCount({
+      relations:['bank'],
+      where:{
+        bank:{
+          id: In(bankid)
+        },
+      },
+      skip: (page-1)*pageSize,
+      take: pageSize,
+      order:{
+        id: order.toUpperCase()
+      }
+    })
+  }
+  // getQuestiosListByBank(bankid,size){
   //   return this.createQueryBuilder('question')
   //     .where('quetion.bankid =:bankid',{bankid:bankid})
   //     .orderBy('image.id','DESC')
