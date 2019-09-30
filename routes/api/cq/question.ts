@@ -65,6 +65,7 @@ export function QuetionRouter(){
           answer:file.answer,
           bankId:file.bankid
         })
+        console.log(file)
       })
       json['list'] = jlist;
       let filename ="./public/temp/shiti.json";
