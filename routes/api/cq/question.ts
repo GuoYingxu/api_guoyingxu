@@ -63,7 +63,7 @@ export function QuetionRouter(){
           optionc:file.optionc,
           optiond:file.optiond,
           answer:file.answer,
-          bankId:file.bankid
+          bankId:file.bankId
         })
         console.log(file)
       })
