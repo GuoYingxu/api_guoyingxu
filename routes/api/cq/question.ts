@@ -27,6 +27,9 @@ export function QuetionRouter(){
       q.optionb = req.body.optionb || '' 
       q.optionc = req.body.optionc || ''
       q.optiond = req.body.optiond || ''
+      if(req.body.id){
+        q.id = req.body.id
+      }
       q.bank = bank;
       try{
         await questionRepository.save(q)
