@@ -59,7 +59,7 @@ export function QuetionRouter(){
         jlist.push({
           title:file.title,
           optiona:file.optiona,
-          soptionb:file.optionb,
+          optionb:file.optionb,
           optionc:file.optionc,
           optiond:file.optiond,
           answer:file.answer,
