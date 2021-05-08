@@ -39,7 +39,7 @@
       "serve-favicon": "^2.5.0",
       "serve-index": "^1.9.1",
       "serve-static": "^1.13.2",
-      "typeorm": "0.2.7"
+      "typeorm": "0.2.25"
    },
    "devDependencies": {
       "@types/node": "^8.0.29",
